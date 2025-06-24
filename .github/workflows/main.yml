@@ -30,7 +30,6 @@ jobs:
       # Step 4: Build the Flet Web App from src directory
       - name: Build Flet Web App
         run: |
-          cd src
           flet build web --entry-point=main.py --out-dir=../../dist
 
       # Step 5: Deploy to GitHub Pages
