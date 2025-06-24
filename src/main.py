@@ -37,4 +37,4 @@ def main(page: ft.Page):
         output,
     )
 
-ft.app(target=main)
+ft.app(main)
