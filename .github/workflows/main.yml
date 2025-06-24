@@ -1,0 +1,43 @@
+name: Deploy Flet Web App
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      # Step 3: Install dependencies (including Flet)
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flet
+
+      # Step 4: Build the Flet Web App from src directory
+      - name: Build Flet Web App
+        run: |
+          cd src
+          flet build web --entry-point=main.py --out-dir=../../dist
+
+      # Step 5: Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: gh-pages
+          destination_dir: rock-paper-scissors-flet-app
